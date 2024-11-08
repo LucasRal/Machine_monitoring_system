@@ -8,6 +8,8 @@ setup(
         "numpy",
         "python-json-logger",
         "python-dotenv",
-        "pandas"
+        "pandas",
+        "flask",
+        "flask-restful"
     ]
 )

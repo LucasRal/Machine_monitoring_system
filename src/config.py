@@ -41,5 +41,5 @@ PARAMETERS = {
 
 # Processing settings
 WINDOW_SIZE = 5
-SIMULATION_INTERVAL = 1  # seconds
+SIMULATION_INTERVAL = 2  # seconds
 PROCESSING_INTERVAL = 10  # seconds

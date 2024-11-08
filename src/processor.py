@@ -1,6 +1,6 @@
 import json
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 import numpy as np
@@ -194,13 +194,13 @@ class DataProcessor:
         flattened = {
             'timestamp': analysis['timestamp'],
             'temperature_current': analysis['window_stats']['temperature']['current'],
-            'temperature_avg': analysis['window_stats']['temperature']['moving_avg'],
+            'temperature_moving_avg': analysis['window_stats']['temperature']['moving_avg'],
             'temperature_trend': analysis['window_stats']['temperature']['trend'],
             'speed_current': analysis['window_stats']['speed']['current'],
-            'speed_avg': analysis['window_stats']['speed']['moving_avg'],
+            'speed_moving_avg': analysis['window_stats']['speed']['moving_avg'],
             'speed_trend': analysis['window_stats']['speed']['trend'],
             'status_current': analysis['window_stats']['status']['current'],
-            'status_mode': analysis['window_stats']['status']['mode'],
+            'status_mode_in_window': analysis['window_stats']['status']['mode'],
             'status_changes': analysis['window_stats']['status']['changes_in_window'],
             'health_score': analysis['analysis']['health_score'],
             'alerts': ';'.join(analysis['analysis']['alerts']) if analysis['analysis']['alerts'] else ''
