@@ -1,0 +1,16 @@
+data/analysis_output.csv
+data/last_processed.txt
+data/stream_output.jsonl
+logs/.gitkeep
+logs/processor.log
+logs/simulator.log
+machine_monitoring.egg-info/dependency_links.txt
+machine_monitoring.egg-info/PKG-INFO
+machine_monitoring.egg-info/requires.txt
+machine_monitoring.egg-info/SOURCES.txt
+machine_monitoring.egg-info/top_level.txt
+src/__pycache__/__init__.cpython-312.pyc
+src/__pycache__/config.cpython-312.pyc
+src/__pycache__/processor.cpython-312.pyc
+src/__pycache__/simulator.cpython-312.pyc
+src/__pycache__/utils.cpython-312.pyc
