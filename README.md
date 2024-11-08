@@ -2,10 +2,10 @@
 
 A Python-based system for simulating and monitoring machine data with real-time processing and REST API capabilities.
 
-## Overview
+# Overview
 The system simulates a machine generating sensor data (temperature, speed, status), processes this data in real-time, and provides API access to the machine's state and processed metrics.
 
-## Features
+# Features
 
 ### Data Simulation
 - Generates realistic machine sensor data:
@@ -29,7 +29,7 @@ The system simulates a machine generating sensor data (temperature, speed, statu
 - Status transition validation
 - Error handling and logging
 
-## Project Structure
+# Project Structure
 ```bash
 machine_monitoring/
 ├── src/
@@ -50,7 +50,7 @@ machine_monitoring/
 └── run_api.py            # API server script
 ```
 
-## Installation
+# Installation
 
 1. Clone the repository
 ```bash
@@ -69,7 +69,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -e .
 ```
 
-## Usage
+# Usage
 
 ### Simulation
 
@@ -85,15 +85,16 @@ python run.py --simulator-only  # Run only simulator
 python run.py --processor-only  # Run only processor
 ```
 
-### API Server
-
+# API Server
 Start the server:
-
+```bash
 python run_api.py
+```
+
 
 API Examples:
 
-# Get latest processed data
+## Get latest processed data
 ```bash
 curl http://localhost:5000/data
 ```
@@ -120,7 +121,7 @@ curl http://localhost:5000/data
 }
 ```
 
-# Get current machine status
+## Get current machine status
 ```bash
 curl http://localhost:5000/status
 ```
@@ -137,7 +138,7 @@ curl http://localhost:5000/status
 }
 ```
 
-# Update machine status
+## Update machine status
 **<ins>Note</ins>:** The request will respond with an error if the status transition is not valid. 
 To see the valid transitions between statuses, see the config.py file.
 ```bash
@@ -166,7 +167,7 @@ curl -X POST http://localhost:5000/status \
 ```
 
 
-## Data Formats
+# Data Formats
 
 ### Streaming Output (JSONL)
 ```bash
