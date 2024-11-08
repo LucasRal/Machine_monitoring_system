@@ -5,8 +5,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any
 
-from config import PARAMETERS, SIMULATION_INTERVAL, STREAM_FILE
-from utils import setup_logger
+from src.config import PARAMETERS, SIMULATION_INTERVAL, STREAM_FILE
+from src.utils import setup_logger
 
 logger = setup_logger("simulator")
 

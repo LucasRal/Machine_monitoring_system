@@ -5,7 +5,7 @@ from pathlib import Path
 from pythonjsonlogger import jsonlogger
 import numpy as np
 from typing import List, Dict, Any, Optional
-from config import LOGS_DIR
+from src.config import LOGS_DIR
 
 
 def setup_logger(name: str) -> logging.Logger:

@@ -8,7 +8,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 LOGS_DIR = PROJECT_ROOT / "logs"
 STREAM_FILE = DATA_DIR / "stream_output.jsonl"
 LAST_PROCESSED_FILE = DATA_DIR / "last_processed.txt"
-
+ANALYSIS_CSV = DATA_DIR / "analysis_output.csv"
 
 # Ensure directories exist
 DATA_DIR.mkdir(exist_ok=True)

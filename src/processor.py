@@ -4,12 +4,13 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 import numpy as np
+import pandas as pd
 
-from config import (
+from src.config import (
     PARAMETERS, PROCESSING_INTERVAL, WINDOW_SIZE,
-    STREAM_FILE, LAST_PROCESSED_FILE
+    STREAM_FILE, LAST_PROCESSED_FILE, ANALYSIS_CSV
 )
-from utils import setup_logger, calculate_moving_stats
+from src.utils import setup_logger, calculate_moving_stats
 
 logger = setup_logger("processor")
 
@@ -18,12 +19,14 @@ class DataProcessor:
     def __init__(self, 
                  input_file: Path,
                  last_processed_file: Path,
+                 output_csv: Path = ANALYSIS_CSV,
                  window_size: int = WINDOW_SIZE):
         self.input_file = input_file
         self.last_processed_file = last_processed_file
+        self.output_csv = output_csv
         self.window_size = window_size
         self.running = False
-        
+
         # Initialize data buffers
         self.temp_buffer: List[float] = []
         self.speed_buffer: List[float] = []
@@ -182,8 +185,44 @@ class DataProcessor:
             alerts.append("Machine paused - may require attention")
         elif reading['status'] == 'SHUTDOWN':
             alerts.append("Machine shutdown - check if scheduled")
-        
+
         return alerts
+
+
+    def flatten_analysis_for_csv(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+        """Flatten the nested analysis dictionary for CSV storage."""
+        flattened = {
+            'timestamp': analysis['timestamp'],
+            'temperature_current': analysis['window_stats']['temperature']['current'],
+            'temperature_avg': analysis['window_stats']['temperature']['moving_avg'],
+            'temperature_trend': analysis['window_stats']['temperature']['trend'],
+            'speed_current': analysis['window_stats']['speed']['current'],
+            'speed_avg': analysis['window_stats']['speed']['moving_avg'],
+            'speed_trend': analysis['window_stats']['speed']['trend'],
+            'status_current': analysis['window_stats']['status']['current'],
+            'status_mode': analysis['window_stats']['status']['mode'],
+            'status_changes': analysis['window_stats']['status']['changes_in_window'],
+            'health_score': analysis['analysis']['health_score'],
+            'alerts': ';'.join(analysis['analysis']['alerts']) if analysis['analysis']['alerts'] else ''
+        }
+        return flattened
+
+    def save_to_csv(self, analysis: Dict[str, Any]):
+        """Save analysis results to CSV file."""
+        try:
+            flattened_analysis = self.flatten_analysis_for_csv(analysis)
+            df = pd.DataFrame([flattened_analysis])
+            
+            # If file exists, append without headers
+            if self.output_csv.exists():
+                df.to_csv(self.output_csv, mode='a', header=False, index=False)
+            else:
+                # If file doesn't exist, create it with headers
+                df.to_csv(self.output_csv, mode='w', header=True, index=False)
+                
+            logger.info(f"Analysis saved to {self.output_csv}")
+        except Exception as e:
+            logger.error(f"Error saving to CSV: {e}")
 
 
     def run(self):
@@ -195,7 +234,11 @@ class DataProcessor:
             while self.running:
                 analysis = self.process_and_analyze()
                 if analysis:
+                    # Print to console
                     print(json.dumps(analysis, indent=2))
+                    # Save to CSV
+                    self.save_to_csv(analysis)
+                    # Update last processed timestamp
                     self.save_last_processed(datetime.fromisoformat(analysis['timestamp']))
                 time.sleep(PROCESSING_INTERVAL)
         except KeyboardInterrupt:
