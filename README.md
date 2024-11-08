@@ -85,7 +85,7 @@ python run.py --simulator-only  # Run only simulator
 python run.py --processor-only  # Run only processor
 ```
 
-# API Server
+# API Server (Flask)
 Start the server:
 ```bash
 python run_api.py
