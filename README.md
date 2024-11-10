@@ -45,7 +45,6 @@ machine_monitoring/
 │   ├── analysis_output.csv # Processed data
 │   └── last_processed.txt  # Processing checkpoint
 ├── logs/                  # Log files directory
-├── requirements.txt       # Project dependencies
 ├── setup.py              # Package configuration
 ├── run.py                # Main simulation script
 └── run_api.py            # API server script
@@ -66,13 +65,14 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
 3. Install package
+* This command will install the package in editable mode and resolve all dependencies listed in ```setup.py```.
 ```bash
 pip install -e .
 ```
 
 # Usage
 
-### Simulation
+### Streaming data + Data processing
 
 Run complete system (simulator + processor):
 
@@ -84,6 +84,11 @@ Run individual components:
 ```bash
 python run.py --simulator-only  # Run only simulator
 python run.py --processor-only  # Run only processor
+```
+
+### Simple analytics with anomaly detection
+```bash
+python simple_analytics.py
 ```
 
 # API Server (Flask)
